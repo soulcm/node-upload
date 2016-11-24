@@ -9,7 +9,7 @@ app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.post('/upload', upload.single('logo'), function(req, res, next){
+app.post('/uploadSingle', upload.single('logo'), function(req, res, next){
     var file = req.file;
 
     console.log('文件类型：%s', file.mimetype);
@@ -19,6 +19,21 @@ app.post('/upload', upload.single('logo'), function(req, res, next){
     console.log(file.fieldname);
     console.log(file.size);
     console.log(file.destination);
+
+    res.send({ret_code: '0'});
+});
+
+
+app.post('/uploadArray', upload.array('logo'), function(req, res, next){
+    var files = req.files;
+    console.log(files)
+
+    res.send({ret_code: '0'});
+});
+
+app.post('/uploadFields', upload.fields([{name: 'logo', maxCount: 1}, {name: 'avatar', maxCount: 3}]), function(req, res, next){
+    var files = req.files;
+    console.log(files)
 
     res.send({ret_code: '0'});
 });
